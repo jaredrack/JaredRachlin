@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/districtforge",
-      "destination": "https://districtforgeapp.vercel.app/districtforge"
+      "destination": "https://districtforgeapp.vercel.app/"
     },
     {
       "source": "/districtforge/:path*",
-      "destination": "https://districtforgeapp.vercel.app/districtforge/:path*"
+      "destination": "https://districtforgeapp.vercel.app/:path*"
     }
   ]
 }
