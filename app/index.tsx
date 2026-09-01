@@ -201,7 +201,11 @@ export default function PersonalLandingPage() {
           <Pressable
             accessibilityRole="link"
             accessibilityLabel="Open DistrictForge"
-            onPress={() => router.push("/districtforge")}
+            onPress={() => {
+  if (typeof window !== "undefined") {
+    window.location.href = "/districtforge";
+  }
+}}
             style={({ pressed }) => [styles.projectCard, styles.districtCard, pressed && styles.projectPressed]}
           >
             <View style={[styles.projectTop, compact && styles.projectTopCompact]}>
