@@ -1,0 +1,13 @@
+﻿{
+    "expo":  {
+                 "web":  {
+                             "bundler":  "metro"
+                         },
+                 "name":  "Jared Rachlin",
+                 "version":  "1.0.0",
+                 "slug":  "jared-rachlin",
+                 "plugins":  [
+                                 "expo-router"
+                             ]
+             }
+}
