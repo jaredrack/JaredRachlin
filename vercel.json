@@ -1,12 +1,14 @@
 {
-  "rewrites": [
+  "redirects": [
     {
       "source": "/districtforge",
-      "destination": "https://districtforgeapp.vercel.app/"
+      "destination": "https://www.districtforge.app/",
+      "permanent": false
     },
     {
       "source": "/districtforge/:path*",
-      "destination": "https://districtforgeapp.vercel.app/:path*"
+      "destination": "https://www.districtforge.app/:path*",
+      "permanent": false
     }
   ]
 }
