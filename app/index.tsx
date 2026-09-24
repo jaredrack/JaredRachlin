@@ -1,9 +1,9 @@
 import Head from "expo-router/head";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
-  Image,
+  Animated,
+  Easing,
   Linking,
-  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -32,6 +32,44 @@ export default function DribbblePortfolio() {
   const { width } = useWindowDimensions();
   const compact = width < 900;
   const narrow = width < 640;
+
+  const nameY = useRef(new Animated.Value(-140)).current;
+  const nameOp = useRef(new Animated.Value(0)).current;
+  const photoY = useRef(new Animated.Value(220)).current;
+  const photoOp = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.sequence([
+      Animated.parallel([
+        Animated.timing(nameY, {
+          toValue: 0,
+          duration: 950,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+        Animated.timing(nameOp, {
+          toValue: 1,
+          duration: 700,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true,
+        }),
+      ]),
+      Animated.parallel([
+        Animated.timing(photoY, {
+          toValue: 0,
+          duration: 1000,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+        Animated.timing(photoOp, {
+          toValue: 1,
+          duration: 700,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true,
+        }),
+      ]),
+    ]).start();
+  }, [nameOp, nameY, photoOp, photoY]);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -100,13 +138,20 @@ export default function DribbblePortfolio() {
           </View>
 
           <View style={s.heroStage}>
-            <Text style={[s.huge, compact && s.hugeCompact, narrow && s.hugeNarrow]}>HI, I'M</Text>
-            <Text style={[s.huge, compact && s.hugeCompact, narrow && s.hugeNarrow]}>JARED.</Text>
-            <Image
+            <Animated.View style={{ opacity: nameOp, transform: [{ translateY: nameY }], zIndex: 1 }}>
+              <Text style={[s.huge, compact && s.hugeCompact, narrow && s.hugeNarrow]}>HI, I'M</Text>
+              <Text style={[s.huge, compact && s.hugeCompact, narrow && s.hugeNarrow]}>JARED.</Text>
+            </Animated.View>
+            <Animated.Image
               source={{ uri: "/mesleeves.png" }}
               accessibilityLabel="Portrait of Jared Rachlin"
               resizeMode="contain"
-              style={[s.cutout, compact && s.cutoutCompact, narrow && s.cutoutNarrow]}
+              style={[
+                s.cutout,
+                compact && s.cutoutCompact,
+                narrow && s.cutoutNarrow,
+                { opacity: photoOp, transform: [{ translateY: photoY }] },
+              ]}
             />
           </View>
 
@@ -253,6 +298,7 @@ const s = StyleSheet.create({
     justifyContent: "center",
     minHeight: 420,
     paddingVertical: 20,
+    overflow: "hidden",
   },
   huge: {
     fontSize: 140,
