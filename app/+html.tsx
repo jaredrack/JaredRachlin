@@ -13,10 +13,26 @@ export default function Root({ children }: PropsWithChildren) {
         />
         <meta
           name="description"
-          content="DistrictForge brings school facilities, work orders, assets, inspections, purchasing, and budgets into one operational system."
+          content="Jared Rachlin is an independent product builder. Dad, night-shift worker, and self-taught maker of DistrictForge and Dadmark."
         />
         <meta name="theme-color" content="#FFFFFF" />
-        <meta name="application-name" content="DistrictForge" />
+        <meta name="application-name" content="Jared Rachlin" />
+        <meta property="og:title" content="Jared Rachlin | Independent Product Builder" />
+        <meta
+          property="og:description"
+          content="Practical software built around problems worth solving — DistrictForge and Dadmark."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://jaredrachlin.dev" />
+        <meta property="og:image" content="https://jaredrachlin.dev/jared-rachlin-portrait.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Jared Rachlin | Independent Product Builder" />
+        <meta
+          name="twitter:description"
+          content="Practical software built around problems worth solving."
+        />
+        <meta name="twitter:image" content="https://jaredrachlin.dev/jared-rachlin-portrait.jpg" />
+        <link rel="canonical" href="https://jaredrachlin.dev" />
         <style
           dangerouslySetInnerHTML={{
             __html: `
@@ -29,7 +45,7 @@ export default function Root({ children }: PropsWithChildren) {
           }}
         />
         <ScrollViewStyleReset />
-        <title>DistrictForge | School Facilities Operations</title>
+        <title>Jared Rachlin | Independent Product Builder</title>
       </head>
       <body>{children}</body>
     </html>
