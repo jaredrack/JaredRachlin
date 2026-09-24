@@ -1,1 +1,1 @@
-export { default } from "./apple";
+export { default } from "./dribbble";
