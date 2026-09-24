@@ -29,13 +29,16 @@ function scrollTo(id: string) {
 }
 
 export default function DribbblePortfolio() {
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const compact = width < 900;
   const narrow = width < 640;
+  const typeSize = Math.round(Math.min(width * 0.2, height * 0.22, 240));
+  const photoW = Math.round(Math.min(width * 0.46, 720));
+  const photoH = Math.round(Math.min(height * 0.7, 820));
 
-  const nameY = useRef(new Animated.Value(-140)).current;
+  const nameY = useRef(new Animated.Value(-180)).current;
   const nameOp = useRef(new Animated.Value(0)).current;
-  const photoY = useRef(new Animated.Value(220)).current;
+  const photoY = useRef(new Animated.Value(260)).current;
   const photoOp = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -114,54 +117,54 @@ export default function DribbblePortfolio() {
       </Head>
 
       <ScrollView style={s.page} contentContainerStyle={s.pageContent} showsVerticalScrollIndicator={false}>
-        <View style={[s.nav, compact && s.navCompact]}>
-          <Text style={s.mark}>JR</Text>
-          <View style={s.navLinks}>
-            {!narrow ? (
-              <>
-                <Pressable onPress={() => scrollTo("work")}><Text style={s.navText}>Work</Text></Pressable>
-                <Pressable onPress={() => scrollTo("about")}><Text style={s.navText}>About</Text></Pressable>
-              </>
-            ) : null}
-            <Pressable onPress={() => scrollTo("contact")} style={s.navCta}>
-              <Text style={s.navCtaText}>Get in touch</Text>
-            </Pressable>
-          </View>
-        </View>
-
-        <View style={[s.hero, compact && s.heroCompact]}>
-          <View style={s.heroTop}>
-            <View style={s.avail}>
-              <View style={s.dot} />
-              <Text style={s.availText}>Available for work</Text>
+        <View style={[s.screen, { minHeight: height }]}>
+          <View style={[s.nav, compact && s.navCompact]}>
+            <Text style={s.mark}>JR</Text>
+            <View style={s.navLinks}>
+              {!narrow ? (
+                <>
+                  <Pressable onPress={() => scrollTo("work")}><Text style={s.navText}>Work</Text></Pressable>
+                  <Pressable onPress={() => scrollTo("about")}><Text style={s.navText}>About</Text></Pressable>
+                </>
+              ) : null}
+              <Pressable onPress={() => scrollTo("contact")} style={s.navCta}>
+                <Text style={s.navCtaText}>Get in touch</Text>
+              </Pressable>
             </View>
           </View>
 
-          <View style={s.heroStage}>
-            <Animated.View style={{ opacity: nameOp, transform: [{ translateY: nameY }], zIndex: 1 }}>
-              <Text style={[s.huge, compact && s.hugeCompact, narrow && s.hugeNarrow]}>HI, I'M</Text>
-              <Text style={[s.huge, compact && s.hugeCompact, narrow && s.hugeNarrow]}>JARED.</Text>
-            </Animated.View>
-            <Animated.Image
-              source={{ uri: "/mesleeves.png" }}
-              accessibilityLabel="Portrait of Jared Rachlin"
-              resizeMode="contain"
-              style={[
-                s.cutout,
-                compact && s.cutoutCompact,
-                narrow && s.cutoutNarrow,
-                { opacity: photoOp, transform: [{ translateY: photoY }] },
-              ]}
-            />
-          </View>
+          <View style={s.hero}>
+            <View style={s.heroTop}>
+              <View style={s.avail}>
+                <View style={s.dot} />
+                <Text style={s.availText}>Available for work</Text>
+              </View>
+            </View>
 
-          <View style={[s.heroBottom, compact && s.heroBottomCompact]}>
-            <Text style={s.lede}>
-              Independent product builder turning everyday friction into focused software.
-            </Text>
-            <Pressable onPress={() => scrollTo("work")} style={s.textLink}>
-              <Text style={s.textLinkLabel}>See selected work →</Text>
-            </Pressable>
+            <View style={s.heroStage}>
+              <Animated.View style={{ opacity: nameOp, transform: [{ translateY: nameY }], zIndex: 1 }}>
+                <Text style={[s.huge, { fontSize: typeSize, lineHeight: typeSize * 0.88 }]}>HI, I'M</Text>
+                <Text style={[s.huge, { fontSize: typeSize, lineHeight: typeSize * 0.88 }]}>JARED.</Text>
+              </Animated.View>
+              <Animated.Image
+                source={{ uri: "/mesleeves.png" }}
+                accessibilityLabel="Portrait of Jared Rachlin"
+                resizeMode="contain"
+                style={[
+                  s.cutout,
+                  { width: photoW, height: photoH, opacity: photoOp, transform: [{ translateY: photoY }] },
+                ]}
+              />
+            </View>
+
+            <View style={[s.heroBottom, compact && s.heroBottomCompact]}>
+              <Text style={s.lede}>
+                Independent product builder turning everyday friction into focused software.
+              </Text>
+              <Pressable onPress={() => scrollTo("work")} style={s.textLink}>
+                <Text style={s.textLinkLabel}>See selected work →</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
 
@@ -210,34 +213,9 @@ export default function DribbblePortfolio() {
           <Text style={[s.sectionTitle, compact && s.sectionTitleCompact]}>Let’s talk about it.</Text>
 
           <View style={s.form}>
-            <TextInput
-              accessibilityLabel="Your name"
-              onChangeText={setName}
-              placeholder="Name"
-              placeholderTextColor="#8A8A8A"
-              style={s.input}
-              value={name}
-            />
-            <TextInput
-              accessibilityLabel="Your email"
-              autoCapitalize="none"
-              keyboardType="email-address"
-              onChangeText={setEmail}
-              placeholder="Email"
-              placeholderTextColor="#8A8A8A"
-              style={s.input}
-              value={email}
-            />
-            <TextInput
-              accessibilityLabel="Your message"
-              multiline
-              onChangeText={setMessage}
-              placeholder="What are you working through?"
-              placeholderTextColor="#8A8A8A"
-              style={[s.input, s.textarea]}
-              textAlignVertical="top"
-              value={message}
-            />
+            <TextInput accessibilityLabel="Your name" onChangeText={setName} placeholder="Name" placeholderTextColor="#8A8A8A" style={s.input} value={name} />
+            <TextInput accessibilityLabel="Your email" autoCapitalize="none" keyboardType="email-address" onChangeText={setEmail} placeholder="Email" placeholderTextColor="#8A8A8A" style={s.input} value={email} />
+            <TextInput accessibilityLabel="Your message" multiline onChangeText={setMessage} placeholder="What are you working through?" placeholderTextColor="#8A8A8A" style={[s.input, s.textarea]} textAlignVertical="top" value={message} />
             {status === "error" ? <Text style={s.err}>{error}</Text> : null}
             {status === "success" ? <Text style={s.ok}>Sent. I’ll get back to you soon.</Text> : null}
             <Pressable disabled={status === "sending"} onPress={submit} style={s.submit}>
@@ -258,12 +236,16 @@ export default function DribbblePortfolio() {
 const s = StyleSheet.create({
   page: { flex: 1, backgroundColor: C.bg },
   pageContent: { paddingBottom: 40 },
-  nav: {
-    maxWidth: 1180,
+  screen: {
     width: "100%",
+    justifyContent: "space-between",
+  },
+  nav: {
+    width: "100%",
+    maxWidth: 1320,
     alignSelf: "center",
-    paddingHorizontal: 28,
-    minHeight: 84,
+    paddingHorizontal: 36,
+    minHeight: 88,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -272,105 +254,56 @@ const s = StyleSheet.create({
   mark: { fontSize: 18, fontWeight: "800", letterSpacing: -0.6, color: C.ink },
   navLinks: { flexDirection: "row", alignItems: "center", gap: 28 },
   navText: { fontSize: 14, color: C.ink, fontWeight: "500" },
-  navCta: {
-    backgroundColor: C.black,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 999,
-  },
+  navCta: { backgroundColor: C.black, paddingHorizontal: 16, paddingVertical: 10, borderRadius: 999 },
   navCtaText: { color: C.white, fontSize: 13, fontWeight: "600" },
   hero: {
-    maxWidth: 1180,
+    flex: 1,
     width: "100%",
+    maxWidth: 1320,
     alignSelf: "center",
-    paddingHorizontal: 28,
-    paddingTop: 20,
-    paddingBottom: 80,
+    paddingHorizontal: 36,
+    paddingBottom: 36,
+    justifyContent: "space-between",
   },
-  heroCompact: { paddingHorizontal: 20, paddingBottom: 48 },
-  heroTop: { marginBottom: 18 },
+  heroTop: { marginTop: 8 },
   avail: { flexDirection: "row", alignItems: "center", gap: 8 },
   dot: { width: 8, height: 8, borderRadius: 99, backgroundColor: "#1F9D55" },
   availText: { fontSize: 13, fontWeight: "600", color: C.ink },
   heroStage: {
+    flex: 1,
     position: "relative",
     alignItems: "center",
     justifyContent: "center",
-    minHeight: 420,
-    paddingVertical: 20,
     overflow: "hidden",
+    minHeight: 360,
   },
   huge: {
-    fontSize: 140,
-    lineHeight: 124,
     fontWeight: "800",
-    letterSpacing: -6,
+    letterSpacing: -8,
     color: C.ink,
     textAlign: "center",
     zIndex: 1,
   },
-  hugeCompact: { fontSize: 88, lineHeight: 82, letterSpacing: -3.5 },
-  hugeNarrow: { fontSize: 58, lineHeight: 56, letterSpacing: -2 },
-  cutout: {
-    position: "absolute",
-    width: 360,
-    height: 420,
-    zIndex: 2,
-  },
-  cutoutCompact: { width: 240, height: 280 },
-  cutoutNarrow: { width: 170, height: 210 },
+  cutout: { position: "absolute", zIndex: 2 },
   heroBottom: {
-    marginTop: 24,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
     gap: 24,
+    paddingTop: 12,
   },
   heroBottomCompact: { flexDirection: "column", alignItems: "flex-start" },
   lede: { maxWidth: 420, fontSize: 18, lineHeight: 26, color: C.mute },
   textLink: { paddingVertical: 6 },
   textLinkLabel: { fontSize: 15, fontWeight: "600", color: C.ink },
-  about: {
-    maxWidth: 900,
-    width: "100%",
-    alignSelf: "center",
-    paddingHorizontal: 28,
-    paddingVertical: 90,
-  },
+  about: { maxWidth: 900, width: "100%", alignSelf: "center", paddingHorizontal: 28, paddingVertical: 90 },
   aboutCompact: { paddingHorizontal: 20, paddingVertical: 56 },
-  kicker: {
-    fontSize: 12,
-    fontWeight: "700",
-    letterSpacing: 1.4,
-    textTransform: "uppercase",
-    color: C.mute,
-    marginBottom: 16,
-  },
-  aboutTitle: {
-    fontSize: 42,
-    lineHeight: 48,
-    fontWeight: "700",
-    letterSpacing: -1.6,
-    color: C.ink,
-    marginBottom: 22,
-  },
+  kicker: { fontSize: 12, fontWeight: "700", letterSpacing: 1.4, textTransform: "uppercase", color: C.mute, marginBottom: 16 },
+  aboutTitle: { fontSize: 42, lineHeight: 48, fontWeight: "700", letterSpacing: -1.6, color: C.ink, marginBottom: 22 },
   aboutTitleCompact: { fontSize: 30, lineHeight: 36, letterSpacing: -0.8 },
   aboutBody: { fontSize: 18, lineHeight: 28, color: C.mute, maxWidth: 640 },
-  work: {
-    maxWidth: 1180,
-    width: "100%",
-    alignSelf: "center",
-    paddingHorizontal: 28,
-    paddingBottom: 80,
-  },
-  sectionTitle: {
-    fontSize: 48,
-    lineHeight: 54,
-    fontWeight: "700",
-    letterSpacing: -1.8,
-    color: C.ink,
-    marginBottom: 32,
-  },
+  work: { maxWidth: 1180, width: "100%", alignSelf: "center", paddingHorizontal: 28, paddingBottom: 80 },
+  sectionTitle: { fontSize: 48, lineHeight: 54, fontWeight: "700", letterSpacing: -1.8, color: C.ink, marginBottom: 32 },
   sectionTitleCompact: { fontSize: 32, lineHeight: 38, letterSpacing: -1 },
   card: { borderRadius: 28, padding: 36, marginBottom: 20 },
   cardDark: { backgroundColor: "#111820" },
@@ -384,45 +317,15 @@ const s = StyleSheet.create({
   cardBodyDark: { color: "#6D6256", fontSize: 17, lineHeight: 26, maxWidth: 520, marginBottom: 22 },
   cardLinkLight: { color: C.white, fontSize: 15, fontWeight: "600" },
   cardLinkDark: { color: C.ink, fontSize: 15, fontWeight: "600" },
-  contact: {
-    maxWidth: 720,
-    width: "100%",
-    alignSelf: "center",
-    paddingHorizontal: 28,
-    paddingVertical: 80,
-  },
+  contact: { maxWidth: 720, width: "100%", alignSelf: "center", paddingHorizontal: 28, paddingVertical: 80 },
   form: { gap: 14 },
-  input: {
-    minHeight: 54,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: C.line,
-    backgroundColor: C.white,
-    paddingHorizontal: 16,
-    fontSize: 16,
-    color: C.ink,
-  },
+  input: { minHeight: 54, borderRadius: 14, borderWidth: 1, borderColor: C.line, backgroundColor: C.white, paddingHorizontal: 16, fontSize: 16, color: C.ink },
   textarea: { minHeight: 140, paddingTop: 14 },
   err: { color: "#C03232", fontSize: 13 },
   ok: { color: "#1F7A45", fontSize: 13 },
-  submit: {
-    alignSelf: "flex-start",
-    backgroundColor: C.black,
-    borderRadius: 999,
-    paddingHorizontal: 22,
-    paddingVertical: 14,
-    marginTop: 6,
-  },
+  submit: { alignSelf: "flex-start", backgroundColor: C.black, borderRadius: 999, paddingHorizontal: 22, paddingVertical: 14, marginTop: 6 },
   submitText: { color: C.white, fontWeight: "600", fontSize: 15 },
-  footer: {
-    maxWidth: 1180,
-    width: "100%",
-    alignSelf: "center",
-    paddingHorizontal: 28,
-    paddingVertical: 28,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
+  footer: { maxWidth: 1180, width: "100%", alignSelf: "center", paddingHorizontal: 28, paddingVertical: 28, flexDirection: "row", justifyContent: "space-between" },
   footerText: { fontSize: 13, color: C.mute },
   pressed: { opacity: 0.92 },
 });
